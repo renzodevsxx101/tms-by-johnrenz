@@ -16,9 +16,10 @@ function fetchTasks(status = "all", searchQuery = "") {
 
                 const taskList = $("#taskList");
                 taskList.empty();  // Clear previous task rows
+                const taskListMobile = $("#taskListMobile");
+                taskListMobile.empty();  // Clear previous task rows
 
                 const isMobile = window.innerWidth <= 577;
-                console.log(isMobile)
                 for (const category in tasksByCategory) {
                     if (tasksByCategory.hasOwnProperty(category)) {
                         let tasks = tasksByCategory[category];
@@ -33,7 +34,6 @@ function fetchTasks(status = "all", searchQuery = "") {
                         tasks.forEach(task => {
 
                             if (isMobile) {
-                                const taskListMobile = $("#taskListMobile");
                                 const taskRowMobile = `
                                  <div class="tms-row">
                                     <div class="tms-cell-actions">
@@ -49,13 +49,12 @@ function fetchTasks(status = "all", searchQuery = "") {
                                 `;
                                 taskListMobile.append(taskRowMobile);
                             } else {
-                                const taskList = $("#taskList");
                                 const taskRow = `
                                     <tr>
                                         <td>${task.title}</td>
                                         <td>${task.description}</td>
                                         <td>${task.due_date}</td>
-                                        <td>${task.completed}</td>
+                                        <td>${task.completed === "Incoming" ? '<span class="btn btn-info px-2 py-1">Incoming</span>' : task.completed === "Today" ? '<span class="btn btn-warning px-2 py-1">Today</span>' : '<span class="btn btn-danger px-2 py-1">Overdue</span>'}</td>
                                         <td>
                                             <button class="btn btn-sm btn-outline-primary edit-btn" data-id="${task.id}" data-title="${task.title}" data-due-date="${task.due_date}" data-description="${task.description}"> <i class="bi bi-pencil"></i> </button>
                                             <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${task.id}"> <i class="bi bi-trash"></i> </button>
