@@ -1,0 +1,143 @@
+    .tdl-search-input::placeholder {
+        color: rgb(177, 159, 242);
+    }
+
+    @media screen and (min-width:768px) {
+        
+        .mx-10{
+            margin:0 5rem;
+        }
+    }
+    @media screen and (max-width:767px) {
+        
+        .mx-10{
+            margin:0 1rem;
+        }
+    }
+
+
+    .bg-gray{
+        background-color: rgb(246, 246, 246);
+    }
+
+    .tdl-search-input-dark::placeholder {
+        color: rgb(174, 167, 167);
+    }
+
+    .w-sb {
+        width: 32.1875rem;
+    }
+
+    .tdl-status-select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-image: none;
+    }
+
+    .tdl-dark-border {
+        border: 2px solid white;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .tms-wrapper {
+        margin: 0 auto;
+        max-width: 800px;
+      }
+      
+      .tms-table {
+        margin: 0 0 40px 0;
+        width: 100%;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        display: table;
+      }
+      
+      @media screen and (max-width: 580px) {
+        .tms-table {
+          display: block;
+        }
+      }
+      
+      .tms-row {
+        display: table-row;
+        background: #f6f6f6;
+      }
+      
+      .tms-row:nth-of-type(odd) {
+        background: #e9e9e9;
+      }
+      
+      .tms-row.header {
+        font-weight: 900;
+        color: #ffffff;
+        background: #0f0f0e;
+      }
+      
+      .tms-row.green {
+        background: #27ae60;
+      }
+      
+      .tms-row.blue {
+        background: #2980b9;
+      }
+      
+      @media screen and (max-width: 580px) {
+        .tms-row {
+          padding: 14px 0 7px;
+          display: block;
+        }
+      
+        .tms-row.header {
+          padding: 0;
+          height: 6px;
+        }
+      
+        .tms-row.header .tms-cell {
+          display: none;
+        }
+      
+        .tms-cell {
+          margin-bottom: 10px;
+        }
+      
+        .tms-cell:before {
+          margin-bottom: 3px;
+          content: attr(data-title);
+          min-width: 98px;
+          font-size: 10px;
+          line-height: 10px;
+          font-weight: bold;
+          text-transform: uppercase;
+          color: #969696;
+          display: block;
+        }
+      }
+      
+
+      .tms-cell-actions{
+
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 10px;
+        padding: 2px 16px;
+      }
+
+      .tms-cell {
+        padding: 6px 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      @media screen and (max-width: 580px) {
+        .tms-cell {
+          padding: 2px 16px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+      }
+      
