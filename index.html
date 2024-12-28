@@ -48,7 +48,7 @@
                 <div id="taskContainer" class="position-relative border border-primary rounded-2 overflow-hidden">
                     <input id="taskSearch" type="text"
                         class="form-control tdl-search-input px-3 py-2 bg-transparent text-truncate pe-5"
-                        placeholder="Search tasks by pressing Enter or clicking button"
+                        placeholder="Search task by pressing Enter or clicking button"
                         onkeypress="handleSearch(event)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                         id="task__searchIcon" onclick="handleSearch(event)"
@@ -111,6 +111,8 @@
             </div>
         </div>
 
+        <!-- Empty state -->
+        <div id="tdl-emptyState" class="d-flex justify-content-center"></div>
 
         <!-- Loader -->
         <div id="loadingState" class="d-none position-fixed start-0 w-100 h-100 bg-light bg-opacity-25"

@@ -1,5 +1,4 @@
 const apiBaseUrl = "https://tms-api-by-johnrenz.onrender.com/tasks/";
-
 // Fetch tasks based on the selected filter
 function fetchTasks(status = "all", searchQuery = "") {
     const url = status === "all" ? apiBaseUrl : `${apiBaseUrl}?status=${status}`;
@@ -9,32 +8,35 @@ function fetchTasks(status = "all", searchQuery = "") {
     $.ajax({
         url: url,
         method: "GET",
-        success: function (tasksByCategory) {
-            setTimeout(function () {
-                $("#loadingState").addClass("d-none");
-                $("#loadingState").removeClass("d-flex justify-content-center align-items-center");
+        success: function (response) {
+            $("#loadingState").addClass("d-none");
+            $("#loadingState").removeClass("d-flex justify-content-center align-items-center");
 
-                const taskList = $("#taskList");
-                taskList.empty();  // Clear previous task rows
-                const taskListMobile = $("#taskListMobile");
-                taskListMobile.empty();  // Clear previous task rows
+            const message = 'You currently have no tasks.';
+            const taskList = $("#taskList");
+            taskList.empty();
+            const taskListMobile = $("#taskListMobile");
+            taskListMobile.empty();
 
-                const isMobile = window.innerWidth <= 577;
-                for (const category in tasksByCategory) {
-                    if (tasksByCategory.hasOwnProperty(category)) {
-                        let tasks = tasksByCategory[category];
+            const isMobile = window.innerWidth <= 577;
+            const tasks = [
+                ...(response?.Incoming ?? []),
+                ...(response?.Today ?? []),
+                ...(response?.Overdue ?? [])
+            ];
 
-                        if (searchQuery) {
-                            tasks = tasks.filter(task =>
-                                task.title.toLowerCase().includes(searchQuery) ||
-                                task.description.toLowerCase().includes(searchQuery)
-                            );
-                        }
+            if (searchQuery) {
+                tasks = tasks.filter(task =>
+                    task.title.toLowerCase().includes(searchQuery) ||
+                    task.description.toLowerCase().includes(searchQuery)
+                );
+            }
 
-                        tasks.forEach(task => {
-
-                            if (isMobile) {
-                                const taskRowMobile = `
+            if (tasks.length > 0) {
+                $('#tdl-emptyState').html(``);
+                tasks.forEach(task => {
+                    if (isMobile) {
+                        const taskRowMobile = `
                                  <div class="tms-row">
                                     <div class="tms-cell-actions">
                                         <button class="btn btn-sm btn-outline-primary edit-btn" data-id="${task.id}" data-title="${task.title}" data-due-date="${task.due_date}" data-description="${task.description}"> <i class="bi bi-pencil"></i> </button>
@@ -47,9 +49,9 @@ function fetchTasks(status = "all", searchQuery = "") {
 
                                   </div>
                                 `;
-                                taskListMobile.append(taskRowMobile);
-                            } else {
-                                const taskRow = `
+                        taskListMobile.append(taskRowMobile);
+                    } else {
+                        const taskRow = `
                                     <tr>
                                         <td>${task.title}</td>
                                         <td>${task.description}</td>
@@ -61,12 +63,13 @@ function fetchTasks(status = "all", searchQuery = "") {
                                         </td>
                                     </tr>
                                 `;
-                                taskList.append(taskRow);
-                            }
-                        });
+                        taskList.append(taskRow);
                     }
-                }
-            }, 1000);
+                });
+            } else {
+                    $('#tdl-emptyState').html(`<p class="d-flex justify-content-center align-items-center mt-5 opacity-75">${message}</p>`);
+            }
+
         },
         error: function () {
             $("#loadingState").addClass("d-none");
@@ -194,10 +197,10 @@ function toggleTheme() {
     $('#taskContainer').toggleClass('border-white');
     $('#task__searchIcon').toggleClass('text-white');
     $('body').toggleClass('bg-dark');
-    $('#table-wrapper').toggleClass('tdl-dark-border pt-0.5 pb-2 px-4');
     $('#table').toggleClass('table-dark text-white');
     $('.tdl-search-input').toggleClass('tdl-search-input-dark text-white');
     $('.tdl-header').toggleClass('text-white');
+    $('#tdl-emptyState').toggleClass('text-white');
 
 
     const icon = $('#themeToggle').find('i');
@@ -212,7 +215,7 @@ $("#filterStatus").on("change", function () {
 
 function handleSearch(event) {
     if (event.type === "click" || event.key === "Enter") {
-        const searchQuery = $("#taskSearch").val().toLowerCase(); // Get search query
+        const searchQuery = $("#taskSearch").val().toLowerCase();
         fetchTasks("all", searchQuery);
     }
 }
